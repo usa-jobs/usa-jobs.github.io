@@ -1,0 +1,53 @@
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "JobPosting",
+  "title": "{{ .Params.title }}",
+  "description": "{{ .Params.description }}",
+  "identifier": {
+    "@type": "PropertyValue",
+    "name": "{{ .Params.company }}",
+    "value": "{{ .Params.identifier }}"
+  },
+  "datePosted": "{{ .Params.posted_date }}",
+  "validThrough": "{{ .Params.valid_through }}",
+  "employmentType": "{{ .Params.employment_type }}",
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "{{ .Params.company }}",
+    "sameAs": "{{ .Params.sameAs }}",  <!-- Update the URL as needed -->
+    "logo": "{{ .Params.logo }}"
+  },
+  {{ if eq .Params.job_type "general" }}
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      {{ $location := delimit (split .Params.location ",") "" }}
+      "streetAddress": "{{ index $location 0 }}",
+      "addressLocality": "{{ index $location 1 }}",
+      "addressRegion": "{{ index $location 2 }}",
+      "postalCode": "{{ index $location 3 }}",
+      "addressCountry": "{{ index $location 4 }}"
+    }
+  },
+  {{ else if eq .Params.job_type "remote" }}
+  "jobLocationType": "{{ .Params.job_location_type }}",
+  "applicantLocationRequirements": {
+    "@type": "Country",
+    "name": "{{ .Params.applicant_location }}"
+  },
+  {{ end }}
+  "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "{{ .Params.salary_currency }}",
+    "value": {
+      "@type": "QuantitativeValue",
+      "value": {{ .Params.salary }},
+      "unitText": "{{ .Params.salary_unit }}"
+    }
+  }
+}
+</script>

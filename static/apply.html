@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Now</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .paypal-button {
+            margin-bottom: 20px;
+        }
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:disabled {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- PayPal Donate Button -->
+        <div class="paypal-button">
+            <form action="https://www.paypal.com/donate" method="post" target="_top">
+                <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL">
+                <input type="hidden" name="currency_code" value="USD">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="Donate with PayPal">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+        </div>
+
+        <!-- Apply Now Button -->
+        <button id="applyButton" class="btn">Apply Now</button>
+
+        <!-- Countdown Timer -->
+        <div id="timer" class="timer">Time left: <span id="countdown">10</span> seconds</div>
+
+        <!-- Apply URL Button (hidden initially) -->
+        <a id="applyNow" class="btn" href="#" style="display:none;" target="_blank">Proceed to Apply</a>
+    </div>
+
+    <script>
+        const applyButton = document.getElementById('applyButton');
+        const timerDiv = document.getElementById('timer');
+        const countdownSpan = document.getElementById('countdown');
+        const applyNowButton = document.getElementById('applyNow');
+        
+        let countdown = 10;
+        let timer;
+
+        applyButton.addEventListener('click', () => {
+            // Hide the "Apply Now" button and show the timer
+            applyButton.style.display = 'none';
+            timerDiv.style.display = 'block';
+
+            // Start countdown
+            timer = setInterval(() => {
+                countdown--;
+                countdownSpan.textContent = countdown;
+
+                if (countdown === 0) {
+                    clearInterval(timer);
+                    showApplyLink();
+                }
+            }, 1000);
+        });
+
+        // Function to decode base64
+        function decodeBase64(base64) {
+            try {
+                return atob(base64);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // Function to show the apply link button
+        function showApplyLink() {
+            // Fetch the Base64 encoded URL from the parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const base64Url = urlParams.get('id');
+
+            if (base64Url) {
+                // Decode the Base64-encoded URL
+                const applyUrl = decodeBase64(base64Url);
+
+                if (applyUrl) {
+                    // Insert the decoded URL into the "Proceed to Apply" button
+                    applyNowButton.href = applyUrl;
+                    applyNowButton.style.display = 'inline-block';
+                } else {
+                    countdownSpan.textContent = "Invalid URL!";
+                }
+            } else {
+                countdownSpan.textContent = "No URL found!";
+            }
+
+            timerDiv.style.display = 'none';
+        }
+    </script>
+	
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BGQ6559X1Y"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-BGQ6559X1Y', { 'anonymize_ip': false });
+}
+</script>
+
+</body>
+</html>
+

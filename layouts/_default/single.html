@@ -78,6 +78,25 @@
 
          
        {{ .Content }}
+	   
+	   <br/><br/>
+	   {{ if .Params.apply_url }}
+		  {{ $applyEncoded := base64Encode .Params.apply_url }}
+		  <div style="text-align: center;">
+		  <a href="/apply.html?id={{ $applyEncoded }}" class="btn btn-primary" target="_blank" rel="noopener">
+			Apply Now
+		  </a>
+		  </div>
+		{{ else if .Params.apply_email }}
+		  <a href="mailto:{{ .Params.apply_email }}" class="btn btn-primary">
+			Apply via Email
+		  </a>
+		{{ else }}
+		  <p>Application details coming soon!</p>
+		{{ end }}
+        <br/><br/>
+		
+		
        </article>
 	   
 	   {{ else }}
